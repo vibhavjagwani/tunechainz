@@ -7,6 +7,9 @@ import { Button } from 'semantic-ui-react'
 import Home from './components/Home'
 import Login from './components/Login'
 import { Router, Route, browserHistory } from 'react-router'
+import Search from './components/Search'
+import Profile from './components/Profile'
+import Songs from './components/Songs'
 
 import './css/oswald.css'
 import './css/open-sans.css'
@@ -177,22 +180,12 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-<<<<<<< HEAD
-        <nav className="navbar pure-menu pure-menu-horizontal">
-            <a href="#" className="pure-menu-heading pure-menu-link">TuneChainz</a>
-            <div style = {{float:'right', paddingRight: '50px'}}>
-            <Button inverted color ='red'>Sign up</Button>
-            <Button color = 'red'>Log in</Button>
-            <Login></Login>
-          </div>
-        </nav>
-        <Home style = {{marginTop: '20px'}}>
-        </Home>
-=======
       <Router history = {browserHistory}>
         <Route path = '/' component = {Home} />
+        <Route path = '/search/:q' component = {Search} />
+        <Route path = '/profile/:q' component = {Profile} />
+        <Route path = '/songs' component = {Songs} />
       </Router>
->>>>>>> 2f55870f8e51f035498d5aaf2180704f940c46ef
       </div>
     );
   }
