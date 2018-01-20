@@ -3,6 +3,8 @@ import { Button, Input, Icon, Divider, Grid } from 'semantic-ui-react';
 import Dropzone from 'react-dropzone';
 import request from 'superagent';
 import {app} from '../base';
+import Audio from 'react-audioplayer';
+import Navigation from './Navigation'
 
 import '../css/oswald.css'
 import '../css/open-sans.css'
@@ -21,7 +23,8 @@ class Home extends Component {
 
     this.state = {
       songinfo: {},
-      uploadedFileCloudinaryUrl: ''
+      uploadedFileCloudinaryUrl: '',
+      songs:[]
     }
   }
 
@@ -46,15 +49,18 @@ class Home extends Component {
 
     if (response.body.secure_url !== '') {
         this.setState({
-          uploadedFileCloudinaryUrl: response.body.secure_url
+          uploadedFileCloudinaryUrl: response.body.secure_url,
+          songs:[ {name:"haha", img: 'http://www.billboard.com/files/styles/900_wide/public/media/Pink-Floyd-Dark-Side-of-the-Moon-2017-billboard-1240.jpg', src: response.body.secure_url }]
         });
       }
+      console.log(this.state.songs);
     });
   }
 
   render() {
     return (
       <div className="Home">
+      <Navigation> </Navigation>
         <div className="container" style = {{backgroundImage:'url(/images/background1.jpeg)'}}>
         <div className="homeContent">
           <h1 style = {{fontSize:'100px', color:'white', marginBottom: '150px'}}>TuneChainz</h1>
@@ -69,6 +75,13 @@ class Home extends Component {
           onDrop={this.onImageDrop.bind(this)}><p>Drop an image or click to select a file to upload.</p>
         </Dropzone> : 
     <div> <p>{this.state.uploadedFile.name}</p>
+    <Audio
+      width={600}
+      height={400}
+      autoPlay={false}
+      fullPlayer={true}
+      playlist={this.state.songs}
+    />
     </div>}
     </div></div>
     );
