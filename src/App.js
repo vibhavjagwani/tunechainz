@@ -23,7 +23,6 @@ class App extends Component {
     this.instantiateContract = this.instantiateContract.bind(this);
     this.addSong = this.addSong.bind(this);
     this.buySong = this.buySong.bind(this);
-
   }
 
   componentWillMount() {
