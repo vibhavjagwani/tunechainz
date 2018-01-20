@@ -66,3 +66,20 @@ code {
   height: 16px;
   margin-right: 10px;
 }
+
+img.bg {
+  /* Set rules to fill background */
+  max-height: 20%;
+  min-width: 1024px;
+  
+  /* Set up proportionate scaling */
+  width: 100%;
+  height: auto;
+}
+
+@media screen and (max-width: 1024px) { /* Specific to this particular image */
+  img.bg {
+    left: 50%;
+    margin-left: -512px;   /* 50% */
+  }
+}

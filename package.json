@@ -49,9 +49,16 @@
     "whatwg-fetch": "1.0.0"
   },
   "dependencies": {
+    "aws-sdk": "^2.185.0",
     "dotenv": "^2.0.0",
     "react": "^15.4.2",
-    "react-dom": "^15.4.2"
+    "react-audio-visualizer": "^1.0.3",
+    "react-dom": "^15.4.2",
+    "react-dropzone": "^4.2.7",
+    "react-file-drop": "^0.1.9",
+    "save": "^2.3.2",
+    "semantic-ui-react": "^0.77.2",
+    "superagent": "^3.8.2"
   },
   "scripts": {
     "start": "node scripts/start.js",
