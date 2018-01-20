@@ -44,7 +44,7 @@ class Login extends Component {
   render() {
     return (
       <div className="Login">
-        <button className="ui positive basic button" onClick={() => {this.authWithGoogle() }}>Login</button>
+        <button className="ui inverted positive basic button" onClick={() => {this.authWithGoogle() }}>Login</button>
       </div>
     );
   }
