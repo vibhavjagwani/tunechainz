@@ -25,8 +25,7 @@ class Home extends Component {
     this.state = {
       songinfo: {},
       uploadedFileCloudinaryUrl: '',
-      songs:[],
-      database: []
+      songs:[]
     }
   }
 
@@ -64,8 +63,7 @@ class Home extends Component {
     if (response.body.secure_url !== '') {
         this.setState({
           uploadedFileCloudinaryUrl: response.body.secure_url,
-          songs:[ {name:"haha", img: 'http://www.billboard.com/files/styles/900_wide/public/media/Pink-Floyd-Dark-Side-of-the-Moon-2017-billboard-1240.jpg', src: response.body.secure_url }],
-          database: ['fuck']
+          songs:[ {name:"haha", img: 'http://www.billboard.com/files/styles/900_wide/public/media/Pink-Floyd-Dark-Side-of-the-Moon-2017-billboard-1240.jpg', src: response.body.secure_url }]
         });
       }
       console.log(this.state.songs);
