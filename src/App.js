@@ -7,6 +7,9 @@ import { Button } from 'semantic-ui-react'
 import Home from './components/Home'
 import Login from './components/Login'
 import { Router, Route, browserHistory } from 'react-router'
+import { base } from './base' 
+import {app, googleProvider} from './base'
+
 
 import './css/oswald.css'
 import './css/open-sans.css'
@@ -21,7 +24,8 @@ class App extends Component {
       storageValue: [],
       numSongs: 0, 
       web3: null,
-      songs: []
+      songs: [],
+      login: false
     }
 
     this.instantiateContract = this.instantiateContract.bind(this);
@@ -32,6 +36,21 @@ class App extends Component {
   componentWillMount() {
     // Get network provider and web3 instance.
     // See utils/getWeb3 for more info.
+
+    this.removeAuthListener = app.auth().onAuthStateChanged((user) => {
+      console.log(user);
+      if(user) {
+        this.setState({
+          loggedIn: true
+        });
+      } else {
+        this.setState({
+          loggedIn: false
+        });
+        //browserHistory.push('/');
+        //base.removeBinding(this.entriesRef);
+      }
+    });  
 
     getWeb3
     .then(results => {
@@ -177,22 +196,9 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-<<<<<<< HEAD
-        <nav className="navbar pure-menu pure-menu-horizontal">
-            <a href="#" className="pure-menu-heading pure-menu-link">TuneChainz</a>
-            <div style = {{float:'right', paddingRight: '50px'}}>
-            <Button inverted color ='red'>Sign up</Button>
-            <Button color = 'red'>Log in</Button>
-            <Login></Login>
-          </div>
-        </nav>
-        <Home style = {{marginTop: '20px'}}>
-        </Home>
-=======
       <Router history = {browserHistory}>
         <Route path = '/' component = {Home} />
       </Router>
->>>>>>> 2f55870f8e51f035498d5aaf2180704f940c46ef
       </div>
     );
   }

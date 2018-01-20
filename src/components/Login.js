@@ -31,6 +31,7 @@ class Login extends Component {
     app.auth().signInWithPopup(googleProvider)
     .then((result) => {
       console.log(result.user);
+      this.props.updateName;
         //browserHistory.push('/entries');
     })
     .catch((error) => {
@@ -43,7 +44,7 @@ class Login extends Component {
   render() {
     return (
       <div className="Login">
-        <button className="ui positive basic button" onClick={() => {this.authWithGoogle() }}>Positive</button>
+        <button className="ui positive basic button" onClick={() => {this.authWithGoogle() }}>Login</button>
       </div>
     );
   }
