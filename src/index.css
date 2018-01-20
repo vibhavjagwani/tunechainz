@@ -8,3 +8,11 @@ body {
 	margin-top: 100px;
 	text-align: center;
 }
+
+.centerThings {
+	text-align: center;
+	justify-content: center;
+	width: 10%;
+    margin-left: auto;
+    margin-right: auto;
+}

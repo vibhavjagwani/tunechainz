@@ -30,6 +30,7 @@ class Home extends Component {
   }
 
   onImageDrop(files) {
+    console.log(files[0]);
     this.setState({uploadedFile: files[0]});
     this.handleImageUpload(files[0]);
   }
@@ -64,12 +65,12 @@ class Home extends Component {
           <Divider horizontal>Or</Divider>
           <h1>Upload here</h1>
         </div>
-          <p> {this.state.uploadedFileCloudinaryUrl === '' ? <Dropzone multiple={false} accept="video/*" 
+          <div className = 'centerThings'> {this.state.uploadedFileCloudinaryUrl === '' ? <Dropzone multiple={false} accept="audio/*" 
           onDrop={this.onImageDrop.bind(this)}><p>Drop an image or click to select a file to upload.</p>
         </Dropzone> : 
     <div> <p>{this.state.uploadedFile.name}</p>
     </div>}
-    </p></div>
+    </div></div>
     );
   }
 }
