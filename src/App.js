@@ -10,6 +10,8 @@ import { Router, Route, browserHistory } from 'react-router'
 import Search from './components/Search'
 import Profile from './components/Profile'
 import Songs from './components/Songs'
+import { base } from './base' 
+import {app, googleProvider} from './base'
 
 import './css/oswald.css'
 import './css/open-sans.css'
@@ -24,7 +26,8 @@ class App extends Component {
       storageValue: [],
       numSongs: 0, 
       web3: null,
-      songs: []
+      songs: [],
+      login: false
     }
 
     this.instantiateContract = this.instantiateContract.bind(this);
@@ -35,6 +38,21 @@ class App extends Component {
   componentWillMount() {
     // Get network provider and web3 instance.
     // See utils/getWeb3 for more info.
+
+    this.removeAuthListener = app.auth().onAuthStateChanged((user) => {
+      console.log(user);
+      if(user) {
+        this.setState({
+          loggedIn: true
+        });
+      } else {
+        this.setState({
+          loggedIn: false
+        });
+        //browserHistory.push('/');
+        //base.removeBinding(this.entriesRef);
+      }
+    });  
 
     getWeb3
     .then(results => {

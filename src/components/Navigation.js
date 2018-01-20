@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { Button, Input, Icon, Divider, Grid } from 'semantic-ui-react';
-
+import Login  from './Login'
+import Logout from './Logout'
+import { base } from '../base' 
+import {app, googleProvider} from '../base'
 
 import '../css/oswald.css'
 import '../css/open-sans.css'
@@ -20,12 +23,24 @@ class Navigation extends Component {
     this.state = {
       songinfo: {},
       uploadedFileCloudinaryUrl: '',
-      songs:[]
+      songs:[],
+      loggedIn: false,
     }
   }
 
   componentWillMount() {
-
+    this.removeAuthListener = app.auth().onAuthStateChanged((user) => {
+      if(user) {
+        this.setState({
+          loggedIn: true
+        });
+      } else {
+        this.setState({
+          loggedIn: false,
+        });
+        //browserHistory.push('/');
+      }
+    }); 
   }
 
   render() {
@@ -34,8 +49,7 @@ class Navigation extends Component {
       <nav className="navbar pure-menu pure-menu-horizontal">
             <a href="#" className="pure-menu-heading pure-menu-link">TuneChainz</a>
             <div style = {{float:'right', paddingRight: '50px'}}>
-            <Button inverted color ='red'>Sign up</Button>
-            <Button color = 'red'>Log in</Button>
+          {this.state.loggedIn? <Logout></Logout>:<Login></Login>}
           </div>
         </nav>
         </div>
