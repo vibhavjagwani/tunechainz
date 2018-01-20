@@ -5,6 +5,7 @@ import Song from '../build/contracts/Song.json'
 import getWeb3 from './utils/getWeb3'
 import { Button } from 'semantic-ui-react'
 import Home from './components/Home'
+import { Router, Route, browserHistory } from 'react-router'
 
 import './css/oswald.css'
 import './css/open-sans.css'
@@ -173,18 +174,11 @@ class App extends Component {
   }
 
   render() {
-    const values = Object.keys(this.state.storageValue);
     return (
       <div className="App">
-        <nav className="navbar pure-menu pure-menu-horizontal">
-            <a href="#" className="pure-menu-heading pure-menu-link">TuneChainz</a>
-            <div style = {{float:'right', paddingRight: '50px'}}>
-            <Button inverted color ='red'>Sign up</Button>
-            <Button color = 'red'>Log in</Button>
-          </div>
-        </nav>
-        <Home style = {{marginTop: '20px'}}>
-        </Home>
+      <Router history = {browserHistory}>
+        <Route path = '/' component = {Home} />
+      </Router>
       </div>
     );
   }
