@@ -6,6 +6,7 @@ import Audio from 'react-audioplayer';
 import Navigation from './Navigation'
 import { base } from '../base' 
 import {app, googleProvider} from '../base'
+import axios from 'axios'
 
 import '../css/oswald.css'
 import '../css/open-sans.css'
@@ -61,6 +62,14 @@ class Home extends Component {
       }
 
     if (response.body.secure_url !== '') {
+        axios.post('http://localhost:3001/api/addSong', {
+          artist: this.state.name, 
+          title: 'lol',
+          address: '0x001',
+          url: response.body.secure_url,
+          imageURL: 'http://www.billboard.com/files/styles/900_wide/public/media/Pink-Floyd-Dark-Side-of-the-Moon-2017-billboard-1240.jpg',
+          timesPlayed: 0
+        })
         this.setState({
           uploadedFileCloudinaryUrl: response.body.secure_url,
           songs:[ {name:"haha", img: 'http://www.billboard.com/files/styles/900_wide/public/media/Pink-Floyd-Dark-Side-of-the-Moon-2017-billboard-1240.jpg', src: response.body.secure_url }]

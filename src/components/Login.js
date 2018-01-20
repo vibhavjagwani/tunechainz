@@ -3,8 +3,6 @@ import { Button, Input, Icon, Divider, Grid } from 'semantic-ui-react';
 import { base } from '../base' 
 import {app, googleProvider} from '../base'
 
-
-
 import '../css/oswald.css'
 import '../css/open-sans.css'
 import '../css/pure-min.css'

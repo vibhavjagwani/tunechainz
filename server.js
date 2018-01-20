@@ -11,11 +11,12 @@ var app = express();
 var router = express.Router();
 var Post = require('./model/posts');
 var User = require('./model/users');
+var Song = require('./model/songs');
 //set our port to either a predetermined port number if you have set 
 //it up, or 3001
 var port = process.env.API_PORT || 3001;
 
-mongoose.connect('mongodb://vjag:password@ds131697.mlab.com:31697/quoted');
+mongoose.connect('mongodb://Pranav:password@ds121696.mlab.com:21696/users');
 //now we should configure the API to use bodyParser and look for 
 //JSON data in the request body
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -34,6 +35,23 @@ app.use(function(req, res, next) {
 //now we can set the route path & initialize the API
 router.get('/', function(req, res) {
  res.json({ message: 'API Initialized!'});
+});
+
+router.route('/addSong').post(function(req, res) {
+	var song = new Song();
+	song.artist = req.body.artist;
+	song.title = req.body.title;
+	song.url = req.body.url;
+	song.imageURL = req.body.imageURL;
+	song.address = req.body.address;
+	song.timesPlayed = req.body.timesPlayed;
+	song.save(function(err) {
+		if(err) {
+			console.log(err);
+		} else {
+			console.log('added');
+		}
+	})
 });
 //adding the /posts route to our /api router
 router.route('/posts')
