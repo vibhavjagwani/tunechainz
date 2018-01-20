@@ -4,7 +4,8 @@ import Dropzone from 'react-dropzone';
 import request from 'superagent';
 import {app} from '../base';
 import Audio from 'react-audioplayer';
-import Navigation from './Navigation'
+import Navigation from './Navigation';
+import base from '../base';
 
 import '../css/oswald.css'
 import '../css/open-sans.css'
@@ -24,12 +25,21 @@ class Home extends Component {
     this.state = {
       songinfo: {},
       uploadedFileCloudinaryUrl: '',
-      songs:[]
+      songs:[],
+      database: []
     }
   }
 
   componentWillMount() {
-    this.removeAuthListener = app.auth()
+    this.databaseRef = base.syncState('songs', {
+      context: this,
+      state: 'database'
+    });
+  }
+
+  componentWillUnmount() {
+    this.removeAuthListener = app.auth();
+     base.removeBinding(this.databaseRef);
   }
 
   onImageDrop(files) {
@@ -50,7 +60,8 @@ class Home extends Component {
     if (response.body.secure_url !== '') {
         this.setState({
           uploadedFileCloudinaryUrl: response.body.secure_url,
-          songs:[ {name:"haha", img: 'http://www.billboard.com/files/styles/900_wide/public/media/Pink-Floyd-Dark-Side-of-the-Moon-2017-billboard-1240.jpg', src: response.body.secure_url }]
+          songs:[ {name:"haha", img: 'http://www.billboard.com/files/styles/900_wide/public/media/Pink-Floyd-Dark-Side-of-the-Moon-2017-billboard-1240.jpg', src: response.body.secure_url }],
+          database: ['fuck']
         });
       }
       console.log(this.state.songs);
