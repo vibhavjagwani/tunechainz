@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Button, Input, Icon, Divider, Grid } from 'semantic-ui-react';
 import Dropzone from 'react-dropzone';
 import request from 'superagent';
-
+import {app} from '../base';
 
 import '../css/oswald.css'
 import '../css/open-sans.css'
@@ -26,7 +26,7 @@ class Home extends Component {
   }
 
   componentWillMount() {
-
+    this.removeAuthListener = app.auth()
   }
 
   onImageDrop(files) {

@@ -5,6 +5,8 @@ import Song from '../build/contracts/Song.json'
 import getWeb3 from './utils/getWeb3'
 import { Button } from 'semantic-ui-react'
 import Home from './components/Home'
+import Login from './components/Login'
+
 
 import './css/oswald.css'
 import './css/open-sans.css'
@@ -181,6 +183,7 @@ class App extends Component {
             <div style = {{float:'right', paddingRight: '50px'}}>
             <Button inverted color ='red'>Sign up</Button>
             <Button color = 'red'>Log in</Button>
+            <Login></Login>
           </div>
         </nav>
         <Home style = {{marginTop: '20px'}}>

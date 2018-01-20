@@ -51,6 +51,9 @@
   "dependencies": {
     "aws-sdk": "^2.185.0",
     "dotenv": "^2.0.0",
+    "firebase": "^4.9.0",
+    "mongoose": "^5.0.1",
+    "re-base": "^3.2.2",
     "react": "^15.4.2",
     "react-audio-visualizer": "^1.0.3",
     "react-dom": "^15.4.2",
