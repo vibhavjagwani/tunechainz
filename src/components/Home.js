@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import { Button, Input, Icon, Divider, Grid } from 'semantic-ui-react';
 import Dropzone from 'react-dropzone';
 import request from 'superagent';
-import {app} from '../base';
 import Audio from 'react-audioplayer';
 import Navigation from './Navigation'
+import { base } from '../base' 
+import {app, googleProvider} from '../base'
 
 import '../css/oswald.css'
 import '../css/open-sans.css'
@@ -29,7 +30,19 @@ class Home extends Component {
   }
 
   componentWillMount() {
-    this.removeAuthListener = app.auth()
+    this.removeAuthListener = app.auth().onAuthStateChanged((user) => {
+      if(user) {
+        console.log(user)
+        this.setState({
+          name: user.displayName
+        });
+      } else {
+        this.setState({
+          name: ""
+        });
+        //browserHistory.push('/');
+      }
+    }); 
   }
 
   onImageDrop(files) {
