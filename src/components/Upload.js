@@ -190,11 +190,8 @@ class Upload extends Component {
     console.log('-----------------------------------------');
         console.log(instance);
         songInstance = instance;
-        this.state.numSongs+=1;
-        var arr = this.state.songs;
-        arr.push(instance.address);
       }).then((result) => {
-            console.log('-----------------------------------------');
+    console.log('-----------------------------------------');
     console.log('-----------------------------------------');
     console.log('-----------------------------------------');
     console.log('-----------------------------------------');
