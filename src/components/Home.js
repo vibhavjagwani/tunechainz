@@ -7,6 +7,7 @@ import Navigation from './Navigation'
 import { base } from '../base' 
 import {app, googleProvider} from '../base'
 import axios from 'axios'
+import Upload from './Upload'
 
 import '../css/oswald.css'
 import '../css/open-sans.css'
@@ -93,18 +94,8 @@ class Home extends Component {
           <Divider horizontal>Or</Divider>
           <h1>Upload here</h1>
         </div>
-          <div className = 'centerThings'> {this.state.uploadedFileCloudinaryUrl === '' ? <Dropzone multiple={false} accept="audio/*" 
-          onDrop={this.onImageDrop.bind(this)}><p>Drop an image or click to select a file to upload.</p>
-        </Dropzone> : 
-    <div> <p>{this.state.uploadedFile.name}</p>
-    <Audio
-      width={600}
-      height={400}
-      autoPlay={false}
-      fullPlayer={true}
-      playlist={this.state.songs}
-    />
-    </div>}
+          <div className = 'centerThings'> 
+          <Upload/>
     </div></div>
     );
   }
