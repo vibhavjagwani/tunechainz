@@ -50,11 +50,13 @@ class Profile extends Component {
           params: {email: this.props.params.prof}
         })
     .then((response)=> {
-      if(response.data.uploaded !== []) {
+      console.log(response.data.uploaded.length);
+      if(response.data.uploaded.length !== 0) {
           this.setState({uploadedSongs: response.data.uploaded,
                         song: [{name: response.data.uploaded[0].title,
                           img: response.data.uploaded[0].imageURL,
-                          src: response.data.uploaded[0].url}]});
+                          src: response.data.uploaded[0].url}],
+                        bought: response.data.bought});
         } else {
           this.setState({uploadedSongs: response.data.uploaded, 
                           bought: response.data.bought});
@@ -88,7 +90,7 @@ class Profile extends Component {
             <Grid columns={2} relaxed style = {{paddingTop:'30px'}}>
             <Grid.Column>
             <h1> Your Songs </h1>
-          {ids.map((id) => {
+          {ids === [] ? <h1>None</h1> : ids.map((id) => {
             return (
             <div style = {{borderBottom: '2px black solid', width:'80%', display: 'inline-block'}}>
             <img src = {'/images/play.png'} style = {{height: '70px', float: 'left', marginLeft:'-10%'}} onClick={(event)=> {this.setState({song: 
@@ -105,15 +107,13 @@ class Profile extends Component {
           </Grid.Column>
           <Grid.Column>
           <h1> Bought Songs </h1>
-          </Grid.Column>
-          {eds.map((id) => {
-            console.log(id);
+          {eds === [] ? <h3>None</h3> : eds.map((id) => {
             return (
             <div style = {{borderBottom: '2px black solid', width:'80%', display: 'inline-block'}}>
-            <img src = {'/images/play.png'} style = {{height: '70px', float: 'left', marginLeft:'-10%'}} onClick={(event)=> {this.setState({song:{src:''}, song: 
-              {name: this.state.bought[id].title,
+            <img src = {'/images/play.png'} style = {{height: '70px', float: 'left', marginLeft:'-10%'}} onClick={(event)=> {this.setState({song: 
+              [{name: this.state.bought[id].title,
                           img: this.state.bought[id].imageURL,
-                          src: this.state.bought[id].url}
+                          src: this.state.bought[id].url}]
                         })}
                         }/>
             <img src = {this.state.bought[id].imageURL} style = {{height: '70px', float: 'left'}}/>
@@ -122,11 +122,11 @@ class Profile extends Component {
             </div>
             );
           })}
+          </Grid.Column> : <div></div>
           </Grid>  
         </div> :
-        <div style = {{paddingTop:'60px'}}>
-        {ids === [] ? <h1> No songs </h1>: 
-        
+        <div style = {{paddingTop:'60px', paddingLeft:"80px"}}>
+        {ids.length === 0 ? <h1> No songs </h1> : 
         ids.map((id) => {
             return (
             <div style = {{borderBottom: '2px black solid', width:'80%', display: 'inline-block', marginLeft:"60px"}}>
