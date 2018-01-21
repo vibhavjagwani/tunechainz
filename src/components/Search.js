@@ -135,8 +135,9 @@ class Search extends Component {
 						<div style = {{borderBottom: '2px black solid', width:'60%', display: 'inline-block'}}>
 				            <img src = {this.state.results[id].imageURL} style = {{height: '70px',width:'80px',float: 'left'}}/>
 				            <h3 style = {{float:'left', paddingLeft:'5px', paddingRight:'10px'}}> {this.state.results[id].title}</h3>
-				            <h3 style = {{float:'left', paddingRight:'10px'}}> by {this.state.results[id].artist} </h3>
+				            <h3 style = {{float:'left', paddingRight:'10px'}}> by <a href = {'/profile/' + this.state.results[id].email}>{this.state.results[id].artist}</a> </h3>
                     {owned? <Button style = {{float:'right'}}>Owned Song</Button> : <Button style = {{float:'right'}} onClick={this.buySong.bind(this, this.state.results[id].title)}>Buy Song</Button>}
+
             			</div>
 					)
 				})
