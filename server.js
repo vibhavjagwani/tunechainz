@@ -37,6 +37,27 @@ router.get('/', function(req, res) {
  res.json({ message: 'API Initialized!'});
 });
 
+router.route('/buySong').post(function(req, res) {
+	var email = req.query.email;
+	var song = req.query.song;
+	User.findOne({email: email}, function(err, user) {
+		user.boughtSongs.push(song);
+		user.save(function(err) {
+			if(err) {
+				console.log(err);
+			}
+		});
+	})
+});
+
+router.route('/getAddress').get(function(req, res) {
+	var title = req.query.title;
+	Song.findOne({title: title}, function(err, song) {
+		console.log(song);
+		res.send(song);
+	});
+});
+
 router.route('/search').get(function(req, res) {
 	var term = req.query.term;
 	Song.find({$or:[{title : {$regex : term}}, {artist : {$regex : term}}]}, function(err, songs) {
