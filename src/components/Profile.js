@@ -24,7 +24,8 @@ class Profile extends Component {
     this.state = {
       uploadedFileCloudinaryUrl: '',
       uploadedSongs:[],
-      song:{}
+      song:{},
+      bought:[]
     }
   }
 
@@ -55,16 +56,19 @@ class Profile extends Component {
                           img: response.data.uploaded[0].imageURL,
                           src: response.data.uploaded[0].url}});
         } else {
-          this.setState({uploadedSongs: response.data.uploaded});
+          this.setState({uploadedSongs: response.data.uploaded, 
+                          bought: response.data.bought});
         }
         });  
   }
 
   render() {
     const ids = Object.keys(this.state.uploadedSongs);
+    const eds = Object.keys(this.state.bought);
     return (
     <div className="Profile">
       	<Navigation> </Navigation>
+        { this.state.email === this.props.params.prof ?
         <div className="container">
           <div>
               {
@@ -103,8 +107,37 @@ class Profile extends Component {
           <Grid.Column>
           <h1> Bought Songs </h1>
           </Grid.Column>
-          </Grid>
+          {eds.map((id) => {
+            return (
+            <div style = {{borderBottom: '2px black solid', width:'80%', display: 'inline-block'}}>
+            <img src = {'/images/play.png'} style = {{height: '70px', float: 'left', marginLeft:'-10%'}} onClick={(event)=> {this.setState({song:{src:''}, song: 
+              {name: this.state.bought[id].title,
+                          img: this.state.bought[id].imageURL,
+                          src: this.state.bought[id].url}
+                        })}
+                        }/>
+            <img src = {this.state.bought[id].imageURL} style = {{height: '70px', float: 'left'}}/>
+            <h4 style = {{float:'left', paddingLeft:'5px'}}> {this.state.bought[id].title}</h4>
+            <h3 style = {{float:'right', paddingRight:'10px'}}> by {this.state.bought[id].artist} </h3>
+            </div>
+            );
+          })}
+          </Grid>  
+        </div> :
+        <div style = {{paddingTop:'60px'}}>
+        {ids === [] ? <h1> No songs </h1>: 
+        
+        ids.map((id) => {
+            return (
+            <div style = {{borderBottom: '2px black solid', width:'80%', display: 'inline-block', marginLeft:"60px"}}>
+            <img src = {this.state.uploadedSongs[id].imageURL} style = {{height: '70px', float: 'left'}}/>
+            <h4 style = {{float:'left', paddingLeft:'5px'}}> {this.state.uploadedSongs[id].title}</h4>
+            <h3 style = {{float:'right', paddingRight:'10px'}}> by {this.state.uploadedSongs[id].artist} </h3>
+            </div>
+            );
+          })}
         </div>
+        }
         </div>
     );
   }

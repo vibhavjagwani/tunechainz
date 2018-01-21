@@ -88,6 +88,7 @@ router.route('/addSong').post(function(req, res) {
 	});
 	var song = new Song();
 	song.artist = req.body.artist;
+	song.email = req.body.email;
 	song.title = req.body.title;
 	song.url = req.body.url;
 	song.imageURL = req.body.imageURL;

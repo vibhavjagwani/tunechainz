@@ -6,6 +6,7 @@ var Schema = mongoose.Schema;
 //object that shows the shape of your database entries.
 var SongSchema = new Schema({
  artist: String,
+ email:String,
  title: String,
  address: String,
  url: String,

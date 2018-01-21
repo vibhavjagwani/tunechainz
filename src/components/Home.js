@@ -11,6 +11,7 @@ import Song from '../../build/contracts/Song.json'
 import getWeb3 from '../utils/getWeb3'
 import Upload from './Upload'
 import {browserHistory} from 'react-router';
+import AlertContainer from 'react-alert';
 
 import '../css/oswald.css'
 import '../css/open-sans.css'
@@ -33,18 +34,18 @@ class Home extends Component {
     }
 
     this.handleTerm = this.handleTerm.bind(this);
+    this.showSignInAlert = this.showSignInAlert.bind(this);
+
   }
 
   handleTerm(event) {
     if(event.key === 'Enter') {
+      if(this.state.name !== "") {
       var term = event.target.value;
-       browserHistory.push('/search/' + term);
-        // axios({method: 'get', 
-        //   url: 'http://localhost:3001/api/search', 
-        //   params: {term: term}
-        // }).then((response)=> {
-        //   console.log(response);
-        // });   
+       browserHistory.push('/search/' + term);   
+     } else {
+      this.showSignInAlert();
+     }
     } 
   }
 
@@ -134,11 +135,20 @@ class Home extends Component {
     });
   }
 
+  showSignInAlert() {
+    this.msg.show('Please log in or sign up first', {
+      time: 10000,
+      type: 'info',
+      transition: 'scale'
+    })
+
+  }
+
   render() {
     return (
       <div className="Home">
       <Navigation> </Navigation>
-        <div className="container" style = {{backgroundImage:'url(/images/background1.jpeg)'}}>
+        <div className="container" style = {{backgroundImage:'url(/images/background2.jpeg)'}}>
         <div className="homeContent">
           <h1 style = {{fontSize:'100px', color:'white', marginBottom: '150px'}}>TuneChainz</h1>
         </div>
@@ -150,7 +160,9 @@ class Home extends Component {
         </div>
           <div className = 'centerThings'> 
           <Upload/>
-    </div></div>
+    </div>
+    <AlertContainer ref={a => this.msg = a} />
+    </div>
     );
   }
 }

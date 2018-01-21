@@ -57,11 +57,13 @@ class Upload extends Component {
       if(user) {
         console.log(user)
         this.setState({
-          name: user.displayName
+          name: user.displayName,
+          email:user.email
         });
       } else {
         this.setState({
-          name: ""
+          name: "",
+          email:""
         });
         //browserHistory.push('/');
       }
@@ -233,7 +235,8 @@ class Upload extends Component {
     console.log('-----------------------------------------');
         var address = songInstance.address;
         axios.post('http://localhost:3001/api/addSong', {
-          artist: this.state.name, 
+          artist: this.state.name,
+          email: this.state.email, 
           title: this.state.title,
           address: address,
           url: this.state.uploadedFileCloudinaryUrl,
