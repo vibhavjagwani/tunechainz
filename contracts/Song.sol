@@ -7,6 +7,8 @@ contract Song {
 	uint listens;
 	uint buys;
 
+	event newSong();
+
 	modifier onlyBy(address _account) {
 		require(msg.sender == _account);
 		_;
@@ -17,6 +19,7 @@ contract Song {
 		owner = msg.sender;
 		listens = 0;
 		buys = 0;
+		newSong();
 	}
 
 	function buySong() public payable returns (bool success) {

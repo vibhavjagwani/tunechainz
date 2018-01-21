@@ -59,7 +59,7 @@ class App extends Component {
       this.setState({
         web3: results.web3
       })
-      this.addSong();
+      //this.addSong();
     })
     .catch(() => {
       console.log('Error finding web3.')
