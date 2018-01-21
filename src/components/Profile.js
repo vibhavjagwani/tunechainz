@@ -32,7 +32,6 @@ class Profile extends Component {
   componentWillMount() {
     this.removeAuthListener = app.auth().onAuthStateChanged((user) => {
       if(user) {
-        console.log(user)
         this.setState({
           name: user.displayName,
           email: user.email
@@ -107,7 +106,6 @@ class Profile extends Component {
           <h1> Bought Songs </h1>
           </Grid.Column>
           {eds.map((id) => {
-            console.log(id);
             return (
             <div style = {{borderBottom: '2px black solid', width:'80%', display: 'inline-block'}}>
             <img src = {'/images/play.png'} style = {{height: '70px', float: 'left', marginLeft:'-10%'}} onClick={(event)=> {this.setState({song:{src:''}, song: 

@@ -36,7 +36,6 @@ class Search extends Component {
   componentWillMount() {
     this.removeAuthListener = app.auth().onAuthStateChanged((user) => {
       if(user) {
-        console.log(user)
         this.setState({
           name: user.displayName,
           email: user.email
@@ -66,9 +65,6 @@ class Search extends Component {
             arr.push(uploaded[up].title);
             this.setState({ownedSongs: arr});
           }
-          console.log(response);
-          console.log(uploaded);
-          console.log(bought);
         });
         
         this.setState({
@@ -121,7 +117,6 @@ class Search extends Component {
 
   render() {
   	const ids = Object.keys(this.state.results);
-    console.log(this.state.ownedSongs);
     return (
     <div className="Search">
       	<Navigation> </Navigation>

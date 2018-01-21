@@ -40,7 +40,6 @@ class App extends Component {
     // See utils/getWeb3 for more info.
 
     this.removeAuthListener = app.auth().onAuthStateChanged((user) => {
-      console.log(user);
       if(user) {
         this.setState({
           loggedIn: true
@@ -157,7 +156,6 @@ class App extends Component {
       var songInstance;
 
       song.new({from: accounts[0], gas: 500000}).then((instance) => {
-        console.log(instance);
         songInstance = instance;
         this.state.numSongs+=1;
         var arr = this.state.songs;
@@ -183,12 +181,10 @@ class App extends Component {
       songInstance.buySong({from: accounts[0], gas: 500000, value: 1000000000000000}).then((result) => {
         return songInstance.numBuys.call(accounts[0])
       }).then((num) => {
-        console.log(num.c[0]);
         return songInstance.buySong({from: accounts[1], gas: 500000, value: 1000000000000000})
       }).then((result) => {
         return songInstance.numBuys.call(accounts[1])
       }).then((num) => {
-        console.log(num.c[0]);
         return songInstance.listen({from: accounts[0]})
       })
     })
