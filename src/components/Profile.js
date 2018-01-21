@@ -22,9 +22,9 @@ class Profile extends Component {
     super(props)
 
     this.state = {
-      songinfo: {},
       uploadedFileCloudinaryUrl: '',
-      songs:[]
+      uploadedSongs:[],
+      song:{}
     }
   }
 
@@ -49,19 +49,63 @@ class Profile extends Component {
           params: {email: this.props.params.prof}
         })
     .then((response)=> {
-          console.log(response);
-          console.log('SOMETHING');
-        });
+      if(response.data.uploaded !== []) {
+          this.setState({uploadedSongs: response.data.uploaded,
+                        song: {name: response.data.uploaded[0].title,
+                          img: response.data.uploaded[0].imageURL,
+                          src: response.data.uploaded[0].url}});
+        } else {
+          this.setState({uploadedSongs: response.data.uploaded});
+        }
+        });  
   }
 
   render() {
+    const ids = Object.keys(this.state.uploadedSongs);
     return (
     <div className="Profile">
       	<Navigation> </Navigation>
         <div className="container">
-       		<p>{this.props.params.prof}</p>
-    	</div>
-    </div>
+          <div>
+              {
+                ids === []? <div> Upload songs </div> :
+                ids.map((id) => {
+                  if(id === '0') {
+            return (
+              <Audio width={1200}
+              height={300}
+              autoPlay={false}
+              fullPlayer={true}
+              playlist={[this.state.song]}
+              />
+            );}
+             })}
+            </div>
+            <Grid columns={2} relaxed style = {{paddingTop:'30px'}}>
+            <Grid.Column>
+            <h1> Your Songs </h1>
+          {ids.map((id) => {
+            return (
+            <div style = {{borderBottom: '2px black solid', width:'80%', display: 'inline-block'}}>
+            <img src = {'/images/play.png'} style = {{height: '70px', float: 'left', marginLeft:'-10%'}} onClick={(event)=> {this.setState({song: 
+              {name: this.state.uploadedSongs[id].title,
+                          img: this.state.uploadedSongs[id].imageURL,
+                          src: this.state.uploadedSongs[id].url}
+                        })}
+                        }/>
+            <img src = {this.state.uploadedSongs[id].imageURL} style = {{height: '70px', float: 'left'}}/>
+            <h4 style = {{float:'left', paddingLeft:'5px'}}> {this.state.uploadedSongs[id].title}</h4>
+            <h3 style = {{float:'right', paddingRight:'10px'}}> by {this.state.uploadedSongs[id].artist} </h3>
+            </div>
+            );
+          })}
+          </Grid.Column>
+          <Grid.Column>
+          <h1> Bought Songs </h1>
+          </Grid.Column>
+          </Grid>
+        </div>
+        </div>
     );
   }
 }
