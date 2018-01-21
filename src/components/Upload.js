@@ -10,7 +10,8 @@ import axios from 'axios'
 import Modal from 'react-modal';
 import { Form } from 'semantic-ui-react';
 import AlertContainer from 'react-alert';
-
+import Song from '../../build/contracts/Song.json'
+import getWeb3 from '../utils/getWeb3'
 
 import '../css/oswald.css'
 import '../css/open-sans.css'
@@ -42,7 +43,8 @@ class Upload extends Component {
       uploadedFileCloudinaryUrl: '',
       uploadedImageUrl: '',
       songs:[],
-      modal: false
+      web3: null,
+      modal: false,
     }
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
@@ -63,7 +65,17 @@ class Upload extends Component {
         });
         //browserHistory.push('/');
       }
-    }); 
+    });
+    getWeb3
+    .then(results => {
+      this.setState({
+        web3: results.web3
+      })
+      //this.addSong();
+    })
+    .catch(() => {
+      console.log('Error finding web3.')
+    })     
   }
 
   onImage(files) {
@@ -130,19 +142,81 @@ class Upload extends Component {
 
   handleTitle(event) {
     event.preventDefault();
+    console.log('got here');
     this.setState({title: event.target.value});
   }
 
   submit() {
-     axios.post('http://localhost:3001/api/addSong', {
+    console.log('-----------------------------------------');
+    console.log('-----------------------------------------');
+    console.log('-----------------------------------------');
+    console.log('-----------------------------------------');
+    console.log('-----------------------------------------');
+    console.log('---------------------1111--------------------');
+    console.log('-----------------------------------------');
+    console.log('-----------------------------------------');
+    console.log('-----------------------------------------');
+    console.log('-----------------------------------------');
+    const contract = require('truffle-contract')
+    const song = contract(Song)
+    song.setProvider(this.state.web3.currentProvider)
+
+    this.state.web3.eth.getAccounts((error, accounts)=> {
+      if(error) {
+        console.log(error);
+      }
+          console.log('-----------------------------------------');
+    console.log('-----------------------------------------');
+    console.log('-----------------------------------------');
+    console.log('-----------------------------------------');
+    console.log('-----------------------------------------');
+    console.log('---------------------2222--------------------');
+    console.log('-----------------------------------------');
+    console.log('-----------------------------------------');
+    console.log('-----------------------------------------');
+    console.log('-----------------------------------------');
+      var songInstance;
+
+      song.new({from: accounts[0], gas: 500000}).then((instance) => {
+    console.log('-----------------------------------------');
+    console.log('-----------------------------------------');
+    console.log('-----------------------------------------');
+    console.log('-----------------------------------------');
+    console.log('-----------------------------------------');
+    console.log('---------------------33333--------------------');
+    console.log('-----------------------------------------');
+    console.log('-----------------------------------------');
+    console.log('-----------------------------------------');
+    console.log('-----------------------------------------');
+        console.log(instance);
+        songInstance = instance;
+        this.state.numSongs+=1;
+        var arr = this.state.songs;
+        arr.push(instance.address);
+      }).then((result) => {
+            console.log('-----------------------------------------');
+    console.log('-----------------------------------------');
+    console.log('-----------------------------------------');
+    console.log('-----------------------------------------');
+    console.log('-----------------------------------------');
+    console.log('---------------------444444--------------------');
+    console.log('-----------------------------------------');
+    console.log('-----------------------------------------');
+    console.log('-----------------------------------------');
+    console.log('-----------------------------------------');
+        var address = songInstance.address;
+        axios.post('http://localhost:3001/api/addSong', {
           artist: this.state.name, 
           title: this.state.title,
-          address: '0x001',
+          address: address,
           url: this.state.uploadedFileCloudinaryUrl,
           imageURL: this.state.uploadedImageUrl,
-          timesPlayed: 0
-        })
-     this.closeModal();
+          timesPlayed: 0,
+        }).then((response)=>{
+          this.closeModal();
+        });
+      })
+    })    
   }
 
   showSignInAlert() {

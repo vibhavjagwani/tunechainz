@@ -64,6 +64,14 @@ router.route('/user').post(function(req, res) {
 });
 
 router.route('/addSong').post(function(req, res) {
+	User.find({name: artist}, function(err, users) {
+		users[0].uploadedSongs.push(req.body.title);
+		users[0].save(function(err) {
+			if(err) {
+				console.log(err);
+			}
+		})
+	});
 	var song = new Song();
 	song.artist = req.body.artist;
 	song.title = req.body.title;
