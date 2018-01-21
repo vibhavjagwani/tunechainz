@@ -47,11 +47,13 @@ router.route('/search').get(function(req, res) {
 router.route('/getSongs').get(function(req, res) {
 	var email = req.query.email;
 	User.find({email: email}, function(err, users) {
-		Song.find({url: users[0].uploadedSongs}, function(err, songs){
-			Song.find({url: users[0].boughtSongs}, function(err, moresongs) {
-				res.send({uploaded: songs, bought: moresongs});
-			})
-		});
+		if(users.length !== 0) {
+			Song.find({url: users[0].uploadedSongs}, function(err, songs){
+				Song.find({url: users[0].boughtSongs}, function(err, moresongs) {
+					res.send({uploaded: songs, bought: moresongs});
+				})
+			});
+		}
 		//res.send({owned: users[0].boughtSongs, uploaded: users[0].uploadedSongs});
 	});
 });
