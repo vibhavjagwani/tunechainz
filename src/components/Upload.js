@@ -45,11 +45,13 @@ class Upload extends Component {
       songs:[],
       web3: null,
       modal: false,
+      address: ""
     }
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
     this.showSignInAlert = this.showSignInAlert.bind(this);
     this.submit = this.submit.bind(this);
+    this.secondsubmit = this.secondsubmit.bind(this);
   }
 
   componentWillMount() {
@@ -70,14 +72,19 @@ class Upload extends Component {
     getWeb3
     .then(results => {
       results.web3.eth.getBlock(1, function(err, res) {
+
       });
-      var filter = results.web3.eth.filter('latest');
-      filter.watch(function(err, res) {
+
+      var filter = results.web3.eth.filter('latest', function(err, blockHash) {
+        if(!err) {
+          var block = results.web3.eth.getBlock(blockHash, true);
+          console.log(JSON.stringify(block.transactions));
+        }
+        console.log('ALKSJDASKDJKLSA;D');
       });
       this.setState({
         web3: results.web3
     })
-      //this.addSong();
     })
     .catch(() => {
       console.log('Error finding web3.')
@@ -87,9 +94,8 @@ class Upload extends Component {
   onImage(files) {
     this.setState({uploadedImage: files[0]});
     this.handleImage(files[0]);
-    var filter2 = this.state.web3.filter('latest');
-    filter2.watch(function(err, log) {
-
+    var filter2 = this.state.web3.eth.filter('latest', function(err, log) {
+      console.log('FUCKIN YO');
     });
   }
 
@@ -159,7 +165,6 @@ class Upload extends Component {
   }
 
   submit() {
-
     const contract = require('truffle-contract')
     const song = contract(Song)
     song.setProvider(this.state.web3.currentProvider)
@@ -167,28 +172,42 @@ class Upload extends Component {
       if(error) {
         console.log(error);
       }
-
       var songInstance;
-
       song.new({from: accounts[0], gas: 500000}).then((instance) => {
-        songInstance = instance;
-        var address = songInstance.address;
-        axios.post('http://localhost:3001/api/addSong', {
-          artist: this.state.name,
-          email: this.state.email, 
-          title: this.state.title,
-          address: address,
-          url: this.state.uploadedFileCloudinaryUrl,
-          imageURL: this.state.uploadedImageUrl,
-          timesPlayed: 0,
-        }).then((response)=>{
-
-        });
-      }).then(() => {
-        this.closeModal();
-      })
-      }) 
+      });
+    });
   }
+
+  // submit() {
+
+  //   const contract = require('truffle-contract')
+  //   const song = contract(Song)
+  //   song.setProvider(this.state.web3.currentProvider)
+  //   this.state.web3.eth.getAccounts((error, accounts)=> {
+  //     if(error) {
+  //       console.log(error);
+  //     }
+  //     var songInstance;
+
+  //     song.new({from: accounts[0], gas: 500000}).then((instance) => {
+  //       songInstance = instance;
+  //       var address = songInstance.address;
+  //       axios.post('http://localhost:3001/api/addSong', {
+  //         artist: this.state.name,
+  //         email: this.state.email, 
+  //         title: this.state.title,
+  //         address: address,
+  //         url: this.state.uploadedFileCloudinaryUrl,
+  //         imageURL: this.state.uploadedImageUrl,
+  //         timesPlayed: 0,
+  //       }).then((response)=>{
+
+  //       });
+  //     }).then(() => {
+  //       this.closeModal();
+  //     })
+  //     }) 
+  // }
 
   showSignInAlert() {
     this.msg.show('Please log in or sign up first', {
@@ -197,6 +216,28 @@ class Upload extends Component {
       transition: 'scale'
     })
 
+  }
+
+  secondsubmit(){
+    axios.post('http://localhost:3001/api/addSong', {
+      artist: this.state.name,
+      email: this.state.email, 
+      title: this.state.title,
+      address: this.state.address,
+      url: this.state.uploadedFileCloudinaryUrl,
+      imageURL: this.state.uploadedImageUrl,
+      timesPlayed: 0,
+    }).then((response)=>{
+      this.closeModal();
+      }).then(() => {
+        this.closeModal();
+      });
+      this.closeModal();
+  }
+
+  handleContractChange(event) {
+    event.preventDefault();
+    this.setState({address: event.target.value});
   }
 
   render() {
@@ -214,10 +255,11 @@ class Upload extends Component {
           <label>Song name</label>
           <input placeholder='Song name' onChange={this.handleTitle.bind(this)} />
         </Form.Field>
-        {this.state.uploadedImageUrl === '' ? <Dropzone accept="image/*" onDrop={this.onImage.bind(this)}>
+        {this.state.uploadedImageUrl === '' ?<div> <Dropzone accept="image/*" onDrop={this.onImage.bind(this)}>
           <p>Drop an image or click to select a file to upload.</p>
-        </Dropzone> : <p>Uploaded</p>}
-        <Button onClick = {this.submit}>Submit</Button>
+        </Dropzone> </div> :<div>
+        <Button onClick = {this.submit}>Generate Contract and enter below</Button><input placeholder = "Contract address" onChange = {this.handleContractChange.bind(this)}/></div>}
+        {this.state.address === '' ? <div></div> : <Button onClick = {this.secondsubmit}>Submit</Button> }
       </Form>
       </Modal>
       {this.state.uploadedFileCloudinaryUrl === '' ? <Dropzone multiple={false} accept="audio/*" 

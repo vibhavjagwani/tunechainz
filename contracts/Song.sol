@@ -27,6 +27,7 @@ contract Song {
 		require(listeners[msg.sender] == false);
 		listeners[msg.sender] = true;
 		buys += 1;
+		msg.sender.transfer(msg.value);
 		return true;
 	}
 

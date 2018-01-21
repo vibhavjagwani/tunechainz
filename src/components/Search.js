@@ -103,7 +103,6 @@ class Search extends Component {
           const contract = require('truffle-contract')
           const song = contract(Song)
           song.setProvider(this.state.web3.currentProvider)
-
           this.state.web3.eth.getAccounts((error, accounts)=> {
             var songInstance = song.at(address);
 
