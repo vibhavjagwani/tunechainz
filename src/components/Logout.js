@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Button, Input, Icon, Divider, Grid } from 'semantic-ui-react';
 import { base } from '../base' 
 import {app, googleProvider} from '../base'
+import {browserHistory} from 'react-router'
 
 
 
@@ -18,7 +19,8 @@ class Logout extends Component {
     super(props)
 
     this.state = {
-      name: ""
+      name: "",
+      email: ""
     }
     this.authWithGoogle = this.authWithGoogle.bind(this);
   }
@@ -28,15 +30,19 @@ class Logout extends Component {
       if(user) {
         console.log(user)
         this.setState({
-          name: user.displayName
+          name: user.displayName,
+          email: user.email
         });
       } else {
         this.setState({
-          name: ""
+          name: "",
+          email: ""
         });
         //browserHistory.push('/');
       }
-    }); 
+    });
+
+
   }
 
   authWithGoogle() {
@@ -58,7 +64,7 @@ class Logout extends Component {
     }
     return (
       <div className="Login">
-        <p style={white_text}>Welcome {this.state.name}</p>
+        <a style={white_text} href={"profile/"+this.state.email}>Welcome {this.state.name} </a>
         <button className="ui negative inverted basic button" onClick={() => {this.authWithGoogle() }}>Logout</button>
       </div>
     );
