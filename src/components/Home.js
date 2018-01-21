@@ -30,9 +30,24 @@ class Home extends Component {
       uploadedFileCloudinaryUrl: '',
       songs:[]
     }
+
+    this.handleTerm = this.handleTerm.bind(this);
+  }
+
+  handleTerm(event) {
+    event.preventDefault();
+    var term = event.target.value;
+    console.log(term);
+    axios({method: 'get', 
+      url: 'http://localhost:3001/api/search', 
+      params: {term: term}
+    }).then((response)=> {
+      console.log(response);
+    });    
   }
 
   componentWillMount() {
+
     this.removeAuthListener = app.auth().onAuthStateChanged((user) => {
       if(user) {
         console.log(user)
@@ -41,13 +56,13 @@ class Home extends Component {
           email: user.email
         });
         console.log(user.email);
-        // axios({method: 'get', 
-        //   url: 'http://localhost:3001/api/getSongs', 
-        //   params: {email: user.email}
-        // })
-        // .then((response)=> {
-        //   console.log(response);
-        // });
+        axios({method: 'get', 
+          url: 'http://localhost:3001/api/getSongs', 
+          params: {email: user.email}
+        })
+        .then((response)=> {
+          console.log(response);
+        });
       } else {
         this.setState({
           name: ""
@@ -127,7 +142,7 @@ class Home extends Component {
         </div>
         </div>
         <div style = {{width: '80%', paddingLeft:'25%', marginTop:'30px', textAlign:'center'}}>
-          <Input fluid icon={<Icon name='search' inverted circular link />} size = 'huge' placeholder='Search...' />
+          <Input fluid icon={<Icon name='search' inverted circular link />} size = 'huge' placeholder='Search...' onChange={this.handleTerm.bind(this)}/>
           <Divider horizontal>Or</Divider>
           <h1>Upload here</h1>
         </div>

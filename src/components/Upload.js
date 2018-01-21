@@ -68,23 +68,52 @@ class Upload extends Component {
     });
     getWeb3
     .then(results => {
+      results.web3.eth.getBlock(1, function(err, res) {
+        console.log(res);
+      });
+      var filter = results.web3.eth.filter('latest');
+      filter.watch(function(err, res) {
+        console.log('-----------------------------------------');
+    console.log('-----------------------------------------');
+    console.log('-----------------------------------------');
+    console.log('-----------------------------------------');
+    console.log('-----------------------------------------');
+    console.log('---------------------1000000--------------------');
+    console.log('-----------------------------------------');
+    console.log('-----------------------------------------');
+    console.log('-----------------------------------------');
+    console.log('-----------------------------------------');      });
       this.setState({
         web3: results.web3
-      })
+    })
       //this.addSong();
     })
     .catch(() => {
       console.log('Error finding web3.')
-    })     
+    })
   }
 
   onImage(files) {
     console.log(files[0]);
     this.setState({uploadedImage: files[0]});
     this.handleImage(files[0]);
+    var filter2 = this.state.web3.filter('latest');
+    filter2.watch(function(err, log) {
+    console.log('-----------------------------------------');
+    console.log('-----------------------------------------');
+    console.log('-----------------------------------------');
+    console.log('-----------------------------------------');
+    console.log('-----------------------------------------');
+    console.log('---------------------99999--------------------');
+    console.log('-----------------------------------------');
+    console.log('-----------------------------------------');
+    console.log('-----------------------------------------');
+    console.log('-----------------------------------------');
+    });
   }
 
   handleImage(file) {
+
     let upload = request.post(CLOUDINARY_UPLOADIMAGE_URL)
                         .field('upload_preset', CLOUDINARY_UPLOAD_PRESET)
                         .field('file', file);
@@ -133,6 +162,9 @@ class Upload extends Component {
   }
 
   openModal() {
+    this.state.web3.eth.filter('latest').watch(function(err, logs) {
+      console.log(logs);
+    });
     this.setState({modal: true});
   }
 
@@ -160,12 +192,11 @@ class Upload extends Component {
     const contract = require('truffle-contract')
     const song = contract(Song)
     song.setProvider(this.state.web3.currentProvider)
-
     this.state.web3.eth.getAccounts((error, accounts)=> {
       if(error) {
         console.log(error);
       }
-          console.log('-----------------------------------------');
+    console.log('-----------------------------------------');
     console.log('-----------------------------------------');
     console.log('-----------------------------------------');
     console.log('-----------------------------------------');
@@ -188,7 +219,6 @@ class Upload extends Component {
     console.log('-----------------------------------------');
     console.log('-----------------------------------------');
     console.log('-----------------------------------------');
-        console.log(instance);
         songInstance = instance;
       }).then((result) => {
     console.log('-----------------------------------------');
@@ -210,8 +240,22 @@ class Upload extends Component {
           imageURL: this.state.uploadedImageUrl,
           timesPlayed: 0,
         }).then((response)=>{
-          this.closeModal();
         });
+        var filter = this.state.web3.eth.filter('latest');
+        filter.watch(function(error, result) {
+    console.log('-----------------------------------------');
+    console.log('-----------------------------------------');
+    console.log('-----------------------------------------');
+    console.log('-----------------------------------------');
+    console.log('-----------------------------------------');
+    console.log('---------------------6666666--------------------');
+    console.log('-----------------------------------------');
+    console.log('-----------------------------------------');
+    console.log('-----------------------------------------');
+    console.log('-----------------------------------------');
+        });
+      }).then(() => {
+        this.closeModal();
       })
     })    
   }

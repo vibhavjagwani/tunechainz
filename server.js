@@ -37,6 +37,13 @@ router.get('/', function(req, res) {
  res.json({ message: 'API Initialized!'});
 });
 
+router.route('/search').get(function(req, res) {
+	var term = req.query.term;
+	Song.find({$or:[{title : {$regex : term}}, {artist : {$regex : term}}]}, function(err, songs) {
+		res.send(songs);
+	});
+});
+
 router.route('/getSongs').get(function(req, res) {
 	var email = req.query.email;
 	User.find({email: email}, function(err, users) {
@@ -64,7 +71,7 @@ router.route('/user').post(function(req, res) {
 });
 
 router.route('/addSong').post(function(req, res) {
-	User.find({name: artist}, function(err, users) {
+	User.find({name: req.body.artist}, function(err, users) {
 		users[0].uploadedSongs.push(req.body.title);
 		users[0].save(function(err) {
 			if(err) {
