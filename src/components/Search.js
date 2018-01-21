@@ -91,13 +91,18 @@ class Search extends Component {
 
 
   buySong(name) {
-
-    console.log('hey');
-
     axios({method: 'get', 
           url: 'http://localhost:3001/api/getAddress', 
           params: {title: name}
         }).then((response)=> {
+          var arr = this.state.ownedSongs;
+          arr.push(response.data.title);
+          this.setState({ownedSongs: arr});
+          axios({
+            method: 'post',
+            url: 'http://localhost:3001/api/buySong',
+            params: {email: this.state.email, song: response.data.url}
+          });
           var address = response.data.address;
           const contract = require('truffle-contract')
           const song = contract(Song)
@@ -109,12 +114,6 @@ class Search extends Component {
             songInstance.buySong({from: accounts[0], gas: 500000, value: 1000000000000000}).then((result) => {
               return songInstance.numBuys.call(accounts[0])
             }).then((num) => {
-              axios({
-                method: 'post',
-                url: 'http://localhost:3001/api/buySong',
-                params: {email: this.state.email, song: response.data.title}
-              })
-              console.log(num.c[0]);
             })
           })
         });   

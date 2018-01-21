@@ -41,6 +41,7 @@ router.route('/buySong').post(function(req, res) {
 	var email = req.query.email;
 	var song = req.query.song;
 	User.findOne({email: email}, function(err, user) {
+		console.log(user);
 		user.boughtSongs.push(song);
 		user.save(function(err) {
 			if(err) {
