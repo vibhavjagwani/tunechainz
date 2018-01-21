@@ -24,7 +24,7 @@ class Profile extends Component {
     this.state = {
       uploadedFileCloudinaryUrl: '',
       uploadedSongs:[],
-      song:{},
+      song:[],
       bought:[]
     }
   }
@@ -52,9 +52,9 @@ class Profile extends Component {
     .then((response)=> {
       if(response.data.uploaded !== []) {
           this.setState({uploadedSongs: response.data.uploaded,
-                        song: {name: response.data.uploaded[0].title,
+                        song: [{name: response.data.uploaded[0].title,
                           img: response.data.uploaded[0].imageURL,
-                          src: response.data.uploaded[0].url}});
+                          src: response.data.uploaded[0].url}]});
         } else {
           this.setState({uploadedSongs: response.data.uploaded, 
                           bought: response.data.bought});
@@ -80,7 +80,7 @@ class Profile extends Component {
               height={300}
               autoPlay={false}
               fullPlayer={true}
-              playlist={[this.state.song]}
+              playlist={this.state.song}
               />
             );}
              })}
@@ -92,9 +92,8 @@ class Profile extends Component {
             return (
             <div style = {{borderBottom: '2px black solid', width:'80%', display: 'inline-block'}}>
             <img src = {'/images/play.png'} style = {{height: '70px', float: 'left', marginLeft:'-10%'}} onClick={(event)=> {this.setState({song: 
-              {name: this.state.uploadedSongs[id].title,
-                          img: this.state.uploadedSongs[id].imageURL,
-                          src: this.state.uploadedSongs[id].url}
+              [{src: this.state.uploadedSongs[id].url, name: this.state.uploadedSongs[id].title,
+                          img: this.state.uploadedSongs[id].imageURL}]
                         })}
                         }/>
             <img src = {this.state.uploadedSongs[id].imageURL} style = {{height: '70px', float: 'left'}}/>
@@ -108,6 +107,7 @@ class Profile extends Component {
           <h1> Bought Songs </h1>
           </Grid.Column>
           {eds.map((id) => {
+            console.log(id);
             return (
             <div style = {{borderBottom: '2px black solid', width:'80%', display: 'inline-block'}}>
             <img src = {'/images/play.png'} style = {{height: '70px', float: 'left', marginLeft:'-10%'}} onClick={(event)=> {this.setState({song:{src:''}, song: 
