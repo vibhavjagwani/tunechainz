@@ -121,7 +121,7 @@ class Search extends Component {
     <div className="Search">
       	<Navigation> </Navigation>
         <div className="container" style = {{textAlign:'center'}}>
-        <h1>Search results for {this.props.params.q}</h1>
+        <h1 style = {{paddingTop:"30px"}}>Search results for " {this.props.params.q} "</h1>
 			{
 				ids.map((id)=> {
           var owned = this.state.ownedSongs.includes(this.state.results[id].title);
