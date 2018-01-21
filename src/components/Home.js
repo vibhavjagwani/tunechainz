@@ -53,18 +53,15 @@ class Home extends Component {
 
     this.removeAuthListener = app.auth().onAuthStateChanged((user) => {
       if(user) {
-        console.log(user)
         this.setState({
           name: user.displayName,
           email: user.email
         });
-        console.log(user.email);
         axios({method: 'get', 
           url: 'http://localhost:3001/api/getSongs', 
           params: {email: user.email}
         })
         .then((response)=> {
-          console.log(response);
         });
       } else {
         this.setState({
@@ -85,7 +82,6 @@ class Home extends Component {
   }
 
   onImageDrop(files) {
-    console.log(files[0]);
     this.setState({uploadedFile: files[0]});
     this.handleImageUpload(files[0]);
   }
@@ -108,7 +104,6 @@ class Home extends Component {
           var songInstance;
 
           song.new({from: accounts[0], gas: 500000}).then((instance) => {
-            console.log(instance);
             songInstance = instance;
             this.state.numSongs+=1;
             var arr = this.state.songs;
@@ -131,7 +126,6 @@ class Home extends Component {
           songs:[ {name:"haha", img: 'http://www.billboard.com/files/styles/900_wide/public/media/Pink-Floyd-Dark-Side-of-the-Moon-2017-billboard-1240.jpg', src: response.body.secure_url }]
         });
       }
-      console.log(this.state.songs);
     });
   }
 

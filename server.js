@@ -41,7 +41,6 @@ router.route('/buySong').post(function(req, res) {
 	var email = req.query.email;
 	var song = req.query.song;
 	User.findOne({email: email}, function(err, user) {
-		console.log(user);
 		user.boughtSongs.push(song);
 		user.save(function(err) {
 			if(err) {
@@ -54,7 +53,6 @@ router.route('/buySong').post(function(req, res) {
 router.route('/getAddress').get(function(req, res) {
 	var title = req.query.title;
 	Song.findOne({title: title}, function(err, song) {
-		console.log(song);
 		res.send(song);
 	});
 });

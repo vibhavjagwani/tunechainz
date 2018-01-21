@@ -55,7 +55,6 @@ class Upload extends Component {
   componentWillMount() {
     this.removeAuthListener = app.auth().onAuthStateChanged((user) => {
       if(user) {
-        console.log(user)
         this.setState({
           name: user.displayName,
           email:user.email
@@ -71,20 +70,10 @@ class Upload extends Component {
     getWeb3
     .then(results => {
       results.web3.eth.getBlock(1, function(err, res) {
-        console.log(res);
       });
       var filter = results.web3.eth.filter('latest');
       filter.watch(function(err, res) {
-        console.log('-----------------------------------------');
-    console.log('-----------------------------------------');
-    console.log('-----------------------------------------');
-    console.log('-----------------------------------------');
-    console.log('-----------------------------------------');
-    console.log('---------------------1000000--------------------');
-    console.log('-----------------------------------------');
-    console.log('-----------------------------------------');
-    console.log('-----------------------------------------');
-    console.log('-----------------------------------------');      });
+      });
       this.setState({
         web3: results.web3
     })
@@ -96,21 +85,11 @@ class Upload extends Component {
   }
 
   onImage(files) {
-    console.log(files[0]);
     this.setState({uploadedImage: files[0]});
     this.handleImage(files[0]);
     var filter2 = this.state.web3.filter('latest');
     filter2.watch(function(err, log) {
-    console.log('-----------------------------------------');
-    console.log('-----------------------------------------');
-    console.log('-----------------------------------------');
-    console.log('-----------------------------------------');
-    console.log('-----------------------------------------');
-    console.log('---------------------99999--------------------');
-    console.log('-----------------------------------------');
-    console.log('-----------------------------------------');
-    console.log('-----------------------------------------');
-    console.log('-----------------------------------------');
+
     });
   }
 
@@ -138,7 +117,6 @@ class Upload extends Component {
     if(this.state.name === '') {
       this.showSignInAlert();
     } else {
-    console.log(files[0]);
     this.setState({uploadedFile: files[0]});
     this.handleImageUpload(files[0]);
     this.openModal();
@@ -165,7 +143,8 @@ class Upload extends Component {
 
   openModal() {
     this.state.web3.eth.filter('latest').watch(function(err, logs) {
-      console.log(logs);
+      console.log('WOIASJ;SADJ');
+      this.setState({modal: false});
     });
     this.setState({modal: true});
   }
@@ -176,21 +155,11 @@ class Upload extends Component {
 
   handleTitle(event) {
     event.preventDefault();
-    console.log('got here');
     this.setState({title: event.target.value});
   }
 
   submit() {
-    console.log('-----------------------------------------');
-    console.log('-----------------------------------------');
-    console.log('-----------------------------------------');
-    console.log('-----------------------------------------');
-    console.log('-----------------------------------------');
-    console.log('---------------------1111--------------------');
-    console.log('-----------------------------------------');
-    console.log('-----------------------------------------');
-    console.log('-----------------------------------------');
-    console.log('-----------------------------------------');
+
     const contract = require('truffle-contract')
     const song = contract(Song)
     song.setProvider(this.state.web3.currentProvider)
@@ -198,41 +167,11 @@ class Upload extends Component {
       if(error) {
         console.log(error);
       }
-    console.log('-----------------------------------------');
-    console.log('-----------------------------------------');
-    console.log('-----------------------------------------');
-    console.log('-----------------------------------------');
-    console.log('-----------------------------------------');
-    console.log('---------------------2222--------------------');
-    console.log('-----------------------------------------');
-    console.log('-----------------------------------------');
-    console.log('-----------------------------------------');
-    console.log('-----------------------------------------');
+
       var songInstance;
 
       song.new({from: accounts[0], gas: 500000}).then((instance) => {
-    console.log('-----------------------------------------');
-    console.log('-----------------------------------------');
-    console.log('-----------------------------------------');
-    console.log('-----------------------------------------');
-    console.log('-----------------------------------------');
-    console.log('---------------------33333--------------------');
-    console.log('-----------------------------------------');
-    console.log('-----------------------------------------');
-    console.log('-----------------------------------------');
-    console.log('-----------------------------------------');
         songInstance = instance;
-      }).then((result) => {
-    console.log('-----------------------------------------');
-    console.log('-----------------------------------------');
-    console.log('-----------------------------------------');
-    console.log('-----------------------------------------');
-    console.log('-----------------------------------------');
-    console.log('---------------------444444--------------------');
-    console.log('-----------------------------------------');
-    console.log('-----------------------------------------');
-    console.log('-----------------------------------------');
-    console.log('-----------------------------------------');
         var address = songInstance.address;
         axios.post('http://localhost:3001/api/addSong', {
           artist: this.state.name,
@@ -243,24 +182,12 @@ class Upload extends Component {
           imageURL: this.state.uploadedImageUrl,
           timesPlayed: 0,
         }).then((response)=>{
-        });
-        var filter = this.state.web3.eth.filter('latest');
-        filter.watch(function(error, result) {
-    console.log('-----------------------------------------');
-    console.log('-----------------------------------------');
-    console.log('-----------------------------------------');
-    console.log('-----------------------------------------');
-    console.log('-----------------------------------------');
-    console.log('---------------------6666666--------------------');
-    console.log('-----------------------------------------');
-    console.log('-----------------------------------------');
-    console.log('-----------------------------------------');
-    console.log('-----------------------------------------');
+
         });
       }).then(() => {
         this.closeModal();
       })
-    })    
+      }) 
   }
 
   showSignInAlert() {

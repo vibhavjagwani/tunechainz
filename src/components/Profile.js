@@ -32,7 +32,6 @@ class Profile extends Component {
   componentWillMount() {
     this.removeAuthListener = app.auth().onAuthStateChanged((user) => {
       if(user) {
-        console.log(user)
         this.setState({
           name: user.displayName,
           email: user.email
