@@ -10,6 +10,7 @@ import axios from 'axios'
 import Song from '../../build/contracts/Song.json'
 import getWeb3 from '../utils/getWeb3'
 import Upload from './Upload'
+import {browserHistory} from 'react-router';
 
 import '../css/oswald.css'
 import '../css/open-sans.css'
@@ -35,15 +36,16 @@ class Home extends Component {
   }
 
   handleTerm(event) {
-    event.preventDefault();
-    var term = event.target.value;
-    console.log(term);
-    axios({method: 'get', 
-      url: 'http://localhost:3001/api/search', 
-      params: {term: term}
-    }).then((response)=> {
-      console.log(response);
-    });    
+    if(event.key === 'Enter') {
+      var term = event.target.value;
+       browserHistory.push('/search/' + term);
+        // axios({method: 'get', 
+        //   url: 'http://localhost:3001/api/search', 
+        //   params: {term: term}
+        // }).then((response)=> {
+        //   console.log(response);
+        // });   
+    } 
   }
 
   componentWillMount() {
@@ -142,7 +144,7 @@ class Home extends Component {
         </div>
         </div>
         <div style = {{width: '80%', paddingLeft:'25%', marginTop:'30px', textAlign:'center'}}>
-          <Input fluid icon={<Icon name='search' inverted circular link />} size = 'huge' placeholder='Search...' onChange={this.handleTerm.bind(this)}/>
+          <Input fluid icon={<Icon name='search' inverted circular link />} size = 'huge' placeholder='Search...' onKeyPress={this.handleTerm.bind(this)}/>
           <Divider horizontal>Or</Divider>
           <h1>Upload here</h1>
         </div>
