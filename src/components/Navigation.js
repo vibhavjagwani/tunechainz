@@ -46,7 +46,7 @@ class Navigation extends Component {
   render() {
     return (
       <div className="Navigation">
-      <nav className="navbar pure-menu pure-menu-horizontal">
+      <nav className="navbar pure-menu pure-menu-horizontal" style = {{zIndex: '99'}}>
             <a href="/" className="pure-menu-heading pure-menu-link">TuneChainz</a>
             <div style = {{float:'right', paddingRight: '50px'}}>
           {this.state.loggedIn? <Logout></Logout>:<Login></Login>}

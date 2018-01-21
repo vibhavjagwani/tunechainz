@@ -64,7 +64,7 @@ class Logout extends Component {
     }
     return (
       <div className="Login">
-        <a style={white_text} href={"profile/"+this.state.email}>Welcome {this.state.name} </a>
+        <a style={white_text} href={"/profile/"+this.state.email}>Welcome {this.state.name} </a>
         <button className="ui negative inverted basic button" onClick={() => {this.authWithGoogle() }}>Logout</button>
       </div>
     );
