@@ -41,13 +41,13 @@ class Home extends Component {
           email: user.email
         });
         console.log(user.email);
-        axios({method: 'get', 
-          url: 'http://localhost:3001/api/getSongs', 
-          params: {email: user.email}
-        })
-        .then((response)=> {
-          console.log(response);
-        });
+        // axios({method: 'get', 
+        //   url: 'http://localhost:3001/api/getSongs', 
+        //   params: {email: user.email}
+        // })
+        // .then((response)=> {
+        //   console.log(response);
+        // });
       } else {
         this.setState({
           name: ""

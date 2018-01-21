@@ -201,12 +201,15 @@ class App extends Component {
       <Router history = {browserHistory}>
         <Route path = '/' component = {Home} addsong = {this.addSong}/>
         <Route path = '/search/:q' component = {Search} />
-        <Route path = '/profile/:q' component = {Profile} />
-        <Route path = '/songs' component = {Songs} />
+        <Route path = '/profile/:prof' component = {Profile} />
+        <Route path = '*'  component={NotFound}/>
       </Router>
       </div>
     );
   }
 }
+  const NotFound = () => (
+  <h1>404... This page is not found!</h1>
+  )
 
 export default App

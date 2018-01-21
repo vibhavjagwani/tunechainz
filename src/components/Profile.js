@@ -5,6 +5,7 @@ import request from 'superagent';
 import {app} from '../base';
 import Audio from 'react-audioplayer';
 import Navigation from './Navigation'
+import axios from 'axios';
 
 import '../css/oswald.css'
 import '../css/open-sans.css'
@@ -28,7 +29,29 @@ class Profile extends Component {
   }
 
   componentWillMount() {
-    this.removeAuthListener = app.auth()
+    this.removeAuthListener = app.auth().onAuthStateChanged((user) => {
+      if(user) {
+        console.log(user)
+        this.setState({
+          name: user.displayName,
+          email: user.email
+        });
+      } else {
+        this.setState({
+          name: "",
+          email: ""
+        });
+        //browserHistory.push('/');
+      }
+    });
+    axios({method: 'get', 
+          url: 'http://localhost:3001/api/getSongs', 
+          params: {email: this.props.params.prof}
+        })
+    .then((response)=> {
+          console.log(response);
+          console.log('SOMETHING');
+        });
   }
 
   render() {
@@ -36,7 +59,7 @@ class Profile extends Component {
     <div className="Profile">
       	<Navigation> </Navigation>
         <div className="container">
-       		
+       		<p>{this.props.params.prof}</p>
     	</div>
     </div>
     );

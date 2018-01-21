@@ -47,7 +47,7 @@ class Navigation extends Component {
     return (
       <div className="Navigation">
       <nav className="navbar pure-menu pure-menu-horizontal">
-            <a href="#" className="pure-menu-heading pure-menu-link">TuneChainz</a>
+            <a href="/" className="pure-menu-heading pure-menu-link">TuneChainz</a>
             <div style = {{float:'right', paddingRight: '50px'}}>
           {this.state.loggedIn? <Logout></Logout>:<Login></Login>}
           </div>
