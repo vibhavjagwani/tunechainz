@@ -86,7 +86,7 @@ class Profile extends Component {
             );}
              })}
             </div>
-            <Grid columns={2} relaxed style = {{paddingTop:'30px'}}>
+            <Grid columns={2} relaxed style = {{paddingTop:'30px', paddingLeft:'20px'}}>
             <Grid.Column>
             <h1> Your Songs </h1>
           {ids === [] ? <h1>None</h1> : ids.map((id) => {
@@ -117,11 +117,11 @@ class Profile extends Component {
                         }/>
             <img src = {this.state.bought[id].imageURL} style = {{height: '70px', float: 'left'}}/>
             <h4 style = {{float:'left', paddingLeft:'5px'}}> {this.state.bought[id].title}</h4>
-            <h3 style = {{float:'right', paddingRight:'10px'}}> by {this.state.bought[id].artist} </h3>
+            <h3 style = {{float:'right', paddingRight:'10px'}}> by <a href = {"/profile/" + this.state.bought[id].email}>{this.state.bought[id].artist}</a></h3>
             </div>
             );
           })}
-          </Grid.Column> : <div></div>
+          </Grid.Column> <div></div>
           </Grid>  
         </div> :
         <div style = {{paddingTop:'60px', paddingLeft:"80px"}}>
@@ -131,7 +131,7 @@ class Profile extends Component {
             <div style = {{borderBottom: '2px black solid', width:'80%', display: 'inline-block', marginLeft:"60px"}}>
             <img src = {this.state.uploadedSongs[id].imageURL} style = {{height: '70px', float: 'left'}}/>
             <h4 style = {{float:'left', paddingLeft:'5px'}}> {this.state.uploadedSongs[id].title}</h4>
-            <h3 style = {{float:'right', paddingRight:'10px'}}> by {this.state.uploadedSongs[id].artist} </h3>
+            <h3 style = {{float:'right', paddingRight:'10px'}}> by {this.state.uploadedSongs[id].artist}</h3>
             </div>
             );
           })}
