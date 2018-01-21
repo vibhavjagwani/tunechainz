@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Button, Input, Icon, Divider, Grid } from 'semantic-ui-react';
 import { base } from '../base' 
 import {app, googleProvider} from '../base'
+import axios from 'axios'
 
 import '../css/oswald.css'
 import '../css/open-sans.css'
@@ -25,12 +26,15 @@ class Login extends Component {
   }
 
   authWithGoogle() {
-    console.log('auth with google');
     app.auth().signInWithPopup(googleProvider)
     .then((result) => {
       console.log(result.user);
-      this.props.updateName;
-        //browserHistory.push('/entries');
+      axios.post('http://localhost:3001/api/user', {
+        person: result.user.displayName,
+        email: result.user.email
+      }).then((response)=> {
+        console.log(response);
+      })
     })
     .catch((error) => {
       console.log('error' + error);

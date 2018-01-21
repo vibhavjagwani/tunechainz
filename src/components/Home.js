@@ -7,6 +7,8 @@ import Navigation from './Navigation'
 import { base } from '../base' 
 import {app, googleProvider} from '../base'
 import axios from 'axios'
+import Song from '../../build/contracts/Song.json'
+import getWeb3 from '../utils/getWeb3'
 
 import '../css/oswald.css'
 import '../css/open-sans.css'
@@ -17,14 +19,13 @@ import '../index.css'
 const CLOUDINARY_UPLOAD_PRESET = 'twochains';
 const CLOUDINARY_UPLOAD_URL = 'https://api.cloudinary.com/v1_1/tunechainz/video/upload';
 
-
-
 class Home extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
       songinfo: {},
+      email: "",
       uploadedFileCloudinaryUrl: '',
       songs:[]
     }
@@ -35,15 +36,33 @@ class Home extends Component {
       if(user) {
         console.log(user)
         this.setState({
-          name: user.displayName
+          name: user.displayName,
+          email: user.email
+        });
+        console.log(user.email);
+        axios({method: 'get', 
+          url: 'http://localhost:3001/api/getSongs', 
+          params: {email: user.email}
+        })
+        .then((response)=> {
+          console.log(response);
         });
       } else {
         this.setState({
           name: ""
         });
-        //browserHistory.push('/');
       }
-    }); 
+    });
+    getWeb3
+    .then(results => {
+      this.setState({
+        web3: results.web3
+      })
+      this.addSong();
+    })
+    .catch(() => {
+      console.log('Error finding web3.')
+    }) 
   }
 
   onImageDrop(files) {
@@ -62,13 +81,31 @@ class Home extends Component {
       }
 
     if (response.body.secure_url !== '') {
-        axios.post('http://localhost:3001/api/addSong', {
-          artist: this.state.name, 
-          title: 'lol',
-          address: '0x001',
-          url: response.body.secure_url,
-          imageURL: 'http://www.billboard.com/files/styles/900_wide/public/media/Pink-Floyd-Dark-Side-of-the-Moon-2017-billboard-1240.jpg',
-          timesPlayed: 0
+        const contract = require('truffle-contract')
+        const song = contract(Song)
+        song.setProvider(this.state.web3.currentProvider)
+
+        this.state.web3.eth.getAccounts((error, accounts)=> {
+          var songInstance;
+
+          song.new({from: accounts[0], gas: 500000}).then((instance) => {
+            console.log(instance);
+            songInstance = instance;
+            this.state.numSongs+=1;
+            var arr = this.state.songs;
+            arr.push(instance.address);
+            return this.setState({songs: arr});
+          }).then((result) => {
+            var address = songInstance.address;
+            axios.post('http://localhost:3001/api/addSong', {
+              artist: this.state.email, 
+              title: 'lol',
+              address: address,
+              url: response.body.secure_url,
+              imageURL: 'http://www.billboard.com/files/styles/900_wide/public/media/Pink-Floyd-Dark-Side-of-the-Moon-2017-billboard-1240.jpg',
+              timesPlayed: 0
+            })
+          })
         })
         this.setState({
           uploadedFileCloudinaryUrl: response.body.secure_url,

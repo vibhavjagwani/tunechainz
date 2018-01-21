@@ -1,13 +1,24 @@
-'use strict';
-//import dependency
+//Import the mongoose module
 var mongoose = require('mongoose');
+
+//Define User Schema
 var Schema = mongoose.Schema;
-//create new instance of the mongoose.schema. the schema takes an 
-//object that shows the shape of your database entries.
-var UsersSchema = new Schema({
- user: String,
- password: String //gotta do hash
+
+var userSchema = new Schema({
+  email: String,
+  name: String,
+  boughtSongs: {
+    type: [String],
+    default: []
+  }, 
+  uploadedSongs: {
+    type: [String],
+    default: []
+  }
 });
 
-//export our module to use in server.js
-module.exports = mongoose.model('Users', UsersSchema);
+var User = mongoose.model('User', userSchema);
+
+module.exports = {
+  User: User
+}

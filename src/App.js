@@ -141,7 +141,7 @@ class App extends Component {
         arr.push(result.c[0])
         return this.setState({ storageValue: arr })
       }).then((result) => {
-        this.addSong();
+        //this.addSong();
       })
 
     })
@@ -164,20 +164,20 @@ class App extends Component {
         arr.push(instance.address);
         return this.setState({songs: arr});
       }).then((result) => {
-        this.buySong()
+        return songInstance.address;
       })
     })
 
   }
 
-  buySong() {
+  buySong(_address) {
 
     const contract = require('truffle-contract')
     const song = contract(Song)
     song.setProvider(this.state.web3.currentProvider)
 
     this.state.web3.eth.getAccounts((error, accounts)=> {
-      var address = this.state.songs[0];
+      var address = _address;
       var songInstance = song.at(address);
 
       songInstance.buySong({from: accounts[0], gas: 500000, value: 1000000000000000}).then((result) => {
@@ -199,7 +199,7 @@ class App extends Component {
     return (
       <div className="App">
       <Router history = {browserHistory}>
-        <Route path = '/' component = {Home} />
+        <Route path = '/' component = {Home} addsong = {this.addSong}/>
         <Route path = '/search/:q' component = {Search} />
         <Route path = '/profile/:q' component = {Profile} />
         <Route path = '/songs' component = {Songs} />

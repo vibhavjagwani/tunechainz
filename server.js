@@ -10,7 +10,7 @@ var fs = require('fs');
 var app = express();
 var router = express.Router();
 var Post = require('./model/posts');
-var User = require('./model/users');
+var User = require('./model/users').User;
 var Song = require('./model/songs');
 //set our port to either a predetermined port number if you have set 
 //it up, or 3001
@@ -35,6 +35,32 @@ app.use(function(req, res, next) {
 //now we can set the route path & initialize the API
 router.get('/', function(req, res) {
  res.json({ message: 'API Initialized!'});
+});
+
+router.route('/getSongs').get(function(req, res) {
+	var email = req.query.email;
+	User.find({email: email}, function(err, users) {
+		res.send({owned: users[0].boughtSongs, uploaded: users[0].uploadedSongs});
+	});
+});
+
+router.route('/user').post(function(req, res) {
+	var email = req.body.email;
+	var person = req.body.person;
+	User.find({email: email}, function(err, users) {
+		if(users.length == 0) {
+			var user = new User();
+			user.email = email;
+			user.name = person;
+			user.save(function(err) {
+				if(err) {
+					console.log(err) 
+				} else {
+					console.log('added user');
+				}
+			})
+		}
+	})
 });
 
 router.route('/addSong').post(function(req, res) {
